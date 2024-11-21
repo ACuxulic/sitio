@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puntuaciones Finales</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            justify-content: center;
+        }
+        h1 {
+            color: #ffffff;
+        }
+        table {
+            background-color: #fff;
+            width: 60%; /* Aumenta el tamaño de la tabla */
+            border-collapse: collapse;
+            margin: 0 auto; /* Centrado horizontal */
+            font-size: 1.2rem;
+            margin-bottom: 4%;
+        }
+        th, td {
+            padding: 15px;
+            border: 1px solid #1a1a1a;
+            text-align: center;
+        }
+        input, button {
+            padding: 30px;
+            border: none;
+            border-radius: 8px;
+        }
+        button {
+            background-color: #000000;
+            color: white;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        h1 {
+           color: #00ffcc;
+           margin-bottom: 20px;
+           text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
+        }
+    </style>
+</head>
+        <!-- Elemento de audio -->
+        <audio id="backgroundMusic" loop>
+            <source src="Music/Sonido.mp3" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+        </audio>
+    
+<body>
+    <h1>Puntuaciones Finales</h1>
+    <table>
+        <tr>
+            <th>Jugador</th>
+            <th>Puntuación</th>
+        </tr>
+        <tr>
+            <td id="jugador1"></td>
+            <td id="puntuacion1"></td>
+        </tr>
+        <tr>
+            <td id="jugador2"></td>
+            <td id="puntuacion2"></td>
+        </tr>
+    </table>
+    <button onclick="volverjugar()">VOLVER A JUGAR</button>
+    <button onclick="reiniciarJuego()">REINICAR JUEGO</button>
+    <script>
+        window.onload = () => {
+        const audio = document.getElementById('backgroundMusic');
+        audio.play().catch(error => {
+            console.log('Error al intentar reproducir la música:', error);
+        });
+    };
+    </script>
+    <script>
+        // Recupera los nombres y puntuaciones desde localStorage
+        document.getElementById('jugador1').textContent = localStorage.getItem('player1');
+        document.getElementById('puntuacion1').textContent = localStorage.getItem('score1') || 0;
+        document.getElementById('jugador2').textContent = localStorage.getItem('player2');
+        document.getElementById('puntuacion2').textContent = localStorage.getItem('score2') || 0;
+
+        // Mostrar mensaje del ganador o empate
+        const mensajeGanador = document.getElementById('mensaje-ganador');
+        if (score1 > score2) {
+            mensajeGanador.textContent = `¡El ganador es ${player1} con ${score1} puntos!`;
+        } else if (score2 > score1) {
+            mensajeGanador.textContent = `¡El ganador es ${player2} con ${score2} puntos!`;
+        } else {
+            mensajeGanador.textContent = '¡Es un empate!';
+        }
+
+                // Función para volver a jugar
+                function volverjugar() {
+            // Limpiar localStorage para que pueda ingresar nuevos nombres
+            localStorage.removeItem('score1');
+            localStorage.removeItem('score2');
+            // Redirigir a la página inicial (debe ser la que contiene la entrada de nombres)
+            window.location.href = 'b.html'; // Cambia 'index.html' por el nombre correcto de tu página de entrada
+
+        }
+                // Función para reiniciar el juego
+                function reiniciarJuego() {
+            // Limpiar localStorage para que pueda ingresar nuevos nombres
+            localStorage.removeItem('player1');
+            localStorage.removeItem('player2');
+            localStorage.removeItem('score1');
+            localStorage.removeItem('score2');
+            // Redirigir a la página inicial (debe ser la que contiene la entrada de nombres)
+            window.location.href = 'sesion.html'; // Cambia 'index.html' por el nombre correcto de tu página de entrada
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/estiloT.css">
+    <title>ToTiTo</title>
+</head>
+<body>
+    <!-- Video de fondo -->
+    <video autoplay muted loop id="backgroundVideo">
+        <source src="video/video1.mp4" type="video/mp4">
+        Tu navegador no soporta el elemento de video.
+    </video>
+
+    <div class="container">
+        <h1>X ToTiTo O</h1>
+        <div class="controls">
+            <button id="playWithAI">Jugar contra Neo</button>
+            <button id="playWithFriend">Jugar con un Amigo</button>
+        </div>
+
+        <div class="player-info hidden">
+            <input type="text" id="player1Name" placeholder="Nombre Jugador 1">
+            <input type="text" id="player2Name" placeholder="Nombre Jugador 2">
+            <button id="startGame">Iniciar Juego</button>
+        </div>
+
+        <div class="game-content hidden">
+            <div class="board" id="board"></div>
+            <div class="game-info">
+                <p id="timer">Tiempo: 00:00</p>
+                <p id="turnInfo">Turno: </p>
+                <p id="score">Jugador 1: 0 | Jugador 2: 0</p>
+            </div>
+        </div>
+
+        <button id="reset" class="hidden">Reiniciar</button>
+
+        <!-- Elemento de audio -->
+        <audio id="backgroundMusic" loop>
+            <source src="Music/Sonido 1.mp3" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+        </audio>
+    </div>
+
+    <script>
+        let board;
+        let currentPlayer;
+        let player1Name;
+        let player2Name;
+        let gameActive = false;
+        let timerInterval;
+        let timeElapsed = 0;
+        let player1Score = 0;
+        let player2Score = 0;
+
+        // Reproducir música automáticamente cuando se carga la página
+        window.onload = () => {
+            const audio = document.getElementById('backgroundMusic');
+            audio.play().catch(error => {
+                console.log('Error al intentar reproducir la música:', error);
+            });
+        };
+
+        document.getElementById('playWithAI').addEventListener('click', () => {
+            document.querySelector('.player-info').classList.remove('hidden');
+            document.getElementById('player2Name').value = 'Neo'; // IA name
+        });
+
+        document.getElementById('playWithFriend').addEventListener('click', () => {
+            document.querySelector('.player-info').classList.remove('hidden');
+            document.getElementById('player2Name').placeholder = 'Nombre Jugador 2'; // Clear placeholder
+        });
+
+        document.getElementById('startGame').addEventListener('click', startGame);
+
+        function startGame() {
+            player1Name = document.getElementById('player1Name').value || 'Jugador 1';
+            player2Name = document.getElementById('player2Name').value || 'Jugador 2';
+            currentPlayer = 'X';
+            board = ['', '', '', '', '', '', '', '', ''];
+            gameActive = true;
+            timeElapsed = 0;
+
+            document.querySelector('.player-info').classList.add('hidden');
+            document.querySelector('.game-content').classList.remove('hidden');
+            document.getElementById('board').innerHTML = '';
+            document.getElementById('reset').classList.remove('hidden');
+
+            for (let i = 0; i < 9; i++) {
+                const cell = document.createElement('div');
+                cell.addEventListener('click', () => handleCellClick(i));
+                document.getElementById('board').appendChild(cell);
+            }
+
+            document.getElementById('turnInfo').innerText = `Turno: ${player1Name}`;
+            startTimer();
+        }
+
+        function handleCellClick(index) {
+            if (board[index] !== '' || !gameActive) return;
+
+            board[index] = currentPlayer;
+            document.getElementById('board').children[index].innerText = currentPlayer;
+
+            if (checkWin()) {
+                gameActive = false;
+                clearInterval(timerInterval); // Detener el cronómetro
+                alert(`${currentPlayer === 'X' ? player1Name : player2Name} gana!`);
+                if (currentPlayer === 'X') {
+                    player1Score++;
+                } else {
+                    player2Score++;
+                }
+                updateScore();
+            } else if (board.every(cell => cell !== '')) {
+                gameActive = false;
+                clearInterval(timerInterval); // Detener el cronómetro
+                alert('Empate!');
+            } else {
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                document.getElementById('turnInfo').innerText = `Turno: ${currentPlayer === 'X' ? player1Name : player2Name}`;
+                if (player2Name === 'Neo' && currentPlayer === 'O') {
+                    aiMove(); // Si es el turno de la IA
+                }
+            }
+        }
+
+        function checkWin() {
+            const winPatterns = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // Filas
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columnas
+                [0, 4, 8], [2, 4, 6] // Diagonales
+            ];
+
+            return winPatterns.some(pattern => {
+                const [a, b, c] = pattern;
+                return board[a] === board[b] && board[a] === board[c] && board[a] !== '';
+            });
+        }
+
+        function aiMove() {
+            const emptyIndices = board.map((value, index) => (value === '' ? index : null)).filter(v => v !== null);
+            const randomIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+            handleCellClick(randomIndex);
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeElapsed++;
+                const minutes = Math.floor(timeElapsed / 60);
+                const seconds = timeElapsed % 60;
+                document.getElementById('timer').innerText = `Tiempo: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function updateScore() {
+            document.getElementById('score').innerText = `Jugador 1: ${player1Score} | Jugador 2: ${player2Score}`;
+        }
+
+        document.getElementById('reset').addEventListener('click', () => {
+            clearInterval(timerInterval);
+            startGame();
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,108 @@
+/*TODO CSS CON INTELIGENCIA ARTIFICIAL*/
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*Hecho con INTELIGENCIA ARTIFICIAL*/
+#backgroundVideo {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1; /* Coloca el video detrás de todo */
+    object-fit: cover;
+}
+
+.container {
+    text-align: center;
+    z-index: 1; /* Asegúrate que el contenido esté delante del video */
+}
+
+h1 {
+    color: #00ffcc;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
+}
+
+.controls {
+    margin-bottom: 20px;
+}
+
+button {
+    background-color: #00ccff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0 0 10px #00ccff, 0 0 20px #00ccff;
+}
+
+button:hover {
+    background-color: #0099cc;
+}
+
+.player-info {
+    margin: 10px 0;
+}
+
+.player-info input {
+    padding: 5px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+}
+
+.game-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/*-----------------------INTELIGENCIA RTIFICIAL----------------------*/
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+.board div {
+    width: 100px;
+    height: 100px;
+    background-color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    color: #fff;
+    border: 3px solid transparent;
+    transition: background-color 0.3s, border-color 0.3s;
+    cursor: pointer;
+    box-shadow: 0 0 10px #00ccff, 0 0 20px #00ccff;
+}
+/*-----------------------------------------------------------------------*/
+.board div:hover {
+    background-color: #444;
+    border-color: #00ffcc;
+}
+
+.game-info {
+    margin-top: 10px;
+    font-size: 1.2rem;
+}
+
+.hidden {
+    display: none;
+}

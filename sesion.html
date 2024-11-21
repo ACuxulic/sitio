@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Jugadores</title>
+    <style>
+        body {
+            margin-top: 10%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            background-color: #1a1a1a;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+          
+        }
+        input, button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #00ccff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 0 0 10px #ffffff, 0 0 20px #00ccff;
+            cursor: pointer;
+        }
+        h1 {
+    color: #00ffcc;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
+        }
+    </style>
+</head>
+        <!-- Elemento de audio -->
+        <audio id="backgroundMusic" loop>
+            <source src="Music/Sonido.mp3" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+        </audio>
+ </div>
+<body>
+    <form id="playerForm">
+        <h1 style="text-align: center; transition: background-color 0.3s;">JUEGO DE MEMORIA</h1>
+        <h1 style="text-align: center;">INGRESE JUGADOR 1 Y JUGADOR 2</h1>
+        <input type="text" id="player1" placeholder="Nombre del Jugador 1" required>
+        <input type="text" id="player2" placeholder="Nombre del Jugador 2" required>
+        <button type="submit">Iniciar Juego</button>
+    </form>
+
+    <script>
+        window.onload = () => {
+        const audio = document.getElementById('backgroundMusic');
+        audio.play().catch(error => {
+            console.log('Error al intentar reproducir la música:', error);
+        });
+    };
+    </script>
+
+    <script>
+        const form = document.getElementById('playerForm');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const player1 = document.getElementById('player1').value;
+            const player2 = document.getElementById('player2').value;
+
+            // Guardamos los nombres en localStorage para usarlos en la siguiente página
+            localStorage.setItem('player1', player1);
+            localStorage.setItem('player2', player2);
+
+            // Redireccionamos a la página del juego
+            window.location.href = 'b.html';
+        });
+    </script>
+
+</body>
+</html>
